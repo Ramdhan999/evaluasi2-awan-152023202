@@ -1,0 +1,7 @@
+# File Rahasia
+.env
+*.pem
+
+# File Build Golang
+backend/main
+backend/main.exe

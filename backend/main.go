@@ -69,6 +69,23 @@ func main() {
 		c.JSON(200, gin.H{"message": "Sipadu API is running dengan Database!"})
 	})
 
+	// --- ENDPOINT LIHAT DAFTAR PENGADUAN (ADMIN) ---
+	r.GET("/pengaduan", func(c *gin.Context) {
+		var daftarPengaduan []Pengaduan
+		// Tarik semua data dari RDS, urutin dari yang paling baru
+		result := db.Order("id desc").Find(&daftarPengaduan)
+
+		if result.Error != nil {
+			c.JSON(500, gin.H{"error": "Gagal ngambil data dari database"})
+			return
+		}
+
+		c.JSON(200, gin.H{
+			"pesan": "Sukses narik data",
+			"data":  daftarPengaduan,
+		})
+	})
+
 	// --- ENDPOINT UPLOAD PENGADUAN ---
 	r.POST("/pengaduan", func(c *gin.Context) {
 		judul := c.PostForm("judul")
